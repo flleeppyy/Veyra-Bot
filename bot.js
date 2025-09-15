@@ -183,13 +183,13 @@ class ContextError extends Error {
   }
 }
 
-try {
-  JSON.parse("::{{}{");
-} catch (error) {
-  throw new ContextError("This is a context error for JSON.parse!", {
-    discordId: "12387128903",
-  }, error)
-}
+// try {
+//   JSON.parse("::{{}{");
+// } catch (error) {
+//   throw new ContextError("This is a context error for JSON.parse!", {
+//     discordId: "12387128903",
+//   }, error)
+// }
 
 // Start the bot
 async function start() {
