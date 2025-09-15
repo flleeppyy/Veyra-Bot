@@ -51,7 +51,14 @@ class Pruner {
 
       for (const member of guild.members.cache.values()) {
         if (member.user.bot) continue;
-        if (member.roles.cache.size <= 1 && (!member.joinedAt || member.joinedAt.getTime() <= joinedCutoff)) {
+        if (
+          // Make sure the only role they have is @everyone. in this case its just 1 role.
+          member.roles.cache.size <= 1 &&
+          // Make sure they havent joined in the last x days.
+          (!member.joinedAt || member.joinedAt.getTime() <= joinedCutoff) &&
+          // make sure they don't have an active ticket open!
+          !(guild.channels.cache.find(e=>e.permissionOverwrites.resolve(member.id)))
+        ) {
           try {
             await member.kick('Pruned: No roles and not recently joined');
             prunedCount++;
