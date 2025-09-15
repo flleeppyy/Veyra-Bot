@@ -174,6 +174,23 @@ process.on('SIGTERM', async () => {
   process.emit('SIGINT');
 });
 
+class ContextError extends Error {
+  constructor(message, context = {}, cause = null) {
+    super(message);
+    this.name = 'ContextError';
+    this.context = context;
+    if (cause) this.cause = cause;
+  }
+}
+
+try {
+  JSON.parse("::{{}{");
+} catch (error) {
+  throw new ContextError("This is a context error for JSON.parse!", {
+    discordId: "12387128903",
+  }, error)
+}
+
 // Start the bot
 async function start() {
   try {
